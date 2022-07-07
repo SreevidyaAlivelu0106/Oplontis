@@ -45,7 +45,9 @@
         var startRenderLoop = function (engine, canvas) {
             engine.runRenderLoop(function () {
                 if (sceneToRender && sceneToRender.activeCamera) {
+                    //console.log("test")
                     sceneToRender.render();
+
                 }
             });
         }
@@ -79,6 +81,13 @@
             button.background = new BABYLON.Color3(0, 0, 0).toHexString();
             advancedTexture.addControl(button);
 
+            var cam_button = BABYLON.GUI.Button.CreateSimpleButton("cambut", "cam pos");
+            cam_button.width = 0.1;
+            cam_button.height = "20px";
+            cam_button.color = "white";
+            cam_button.background = new BABYLON.Color3(0, 10, 0).toHexString();
+            advancedTexture.addControl(cam_button);
+
 
             button.onPointerClickObservable.add(() => {
                 var freeCamera = new BABYLON.FreeCamera("FreeCamera", new BABYLON.Vector3(-8, 1, -6), scene);
@@ -86,18 +95,29 @@
                 scene.activeCamera = freeCamera;
                 freeCamera.attachControl(canvas);
                 freeCamera.rotation.y = 1.0;
-                const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(1, 1, 0));
+                console.log("button clicked")
+                //console.log(scene.activeCamera.position)
+                //const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(1, 1, 0));
             });
 
             scene.registerBeforeRender(function() {
                 button.background = buttonColor.diffuseColor.toHexString();
             });
 
+            cam_button.onPointerClickObservable.add(() => {
+
+                console.log(scene.activeCamera.position)
+                //const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(1, 1, 0));
+            });
+
+            scene.registerBeforeRender(function() {
+                cam_button.background = buttonColor.diffuseColor.toHexString();
+            });
+
             return scene;
 
         };
                 window.initFunction = async function() {
-
 
                     var asyncEngineCreation = async function() {
                         try {
@@ -108,11 +128,14 @@
                         }
                     }
 
-                    window.engine = await asyncEngineCreation();
-        if (!engine) throw 'engine should not be null.';
-        startRenderLoop(engine, canvas);
-        window.scene = createScene();};
-        initFunction().then(() => {sceneToRender = scene
+              window.engine = await asyncEngineCreation();
+              if (!engine) throw 'engine should not be null.';
+              startRenderLoop(engine, canvas)
+              window.scene = createScene()
+         }
+
+        initFunction().then(() => {
+          sceneToRender = scene
         });
 
         // Resize
