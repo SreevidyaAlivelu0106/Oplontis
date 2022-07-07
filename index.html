@@ -1,14 +1,26 @@
 <!DOCTYPE html>
 <html>
-
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <link rel="shortcut icon" href="./favicon.ico">
-        <title>Sample using Babylon js</title>
 
-        <script src="https://preview.babylonjs.com/gltf_validator.js"></script>
+        <title>Babylon.js sample code</title>
+
+        <!-- Babylon.js -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.6.2/dat.gui.min.js"></script>
+        <script src="https://assets.babylonjs.com/generated/Assets.js"></script>
+        <script src="https://preview.babylonjs.com/ammo.js"></script>
+        <script src="https://preview.babylonjs.com/cannon.js"></script>
+        <script src="https://preview.babylonjs.com/Oimo.js"></script>
+        <script src="https://preview.babylonjs.com/earcut.min.js"></script>
         <script src="https://preview.babylonjs.com/babylon.js"></script>
+        <script src="https://preview.babylonjs.com/materialsLibrary/babylonjs.materials.min.js"></script>
+        <script src="https://preview.babylonjs.com/proceduralTexturesLibrary/babylonjs.proceduralTextures.min.js"></script>
+        <script src="https://preview.babylonjs.com/postProcessesLibrary/babylonjs.postProcess.min.js"></script>
         <script src="https://preview.babylonjs.com/loaders/babylonjs.loaders.js"></script>
+        <script src="https://preview.babylonjs.com/serializers/babylonjs.serializers.min.js"></script>
+        <script src="https://preview.babylonjs.com/gui/babylon.gui.min.js"></script>
+        <script src="https://preview.babylonjs.com/inspector/babylon.inspector.bundle.js"></script>
+
         <style>
             html, body {
                 overflow: hidden;
@@ -25,49 +37,88 @@
             }
         </style>
     </head>
-
-
-
-    <body>
-     <canvas id="renderCanvas"></canvas>
-     <script>
+<body>
+    <canvas id="renderCanvas"></canvas>
+    <script>
         var canvas = document.getElementById("renderCanvas");
 
+        var startRenderLoop = function (engine, canvas) {
+            engine.runRenderLoop(function () {
+                if (sceneToRender && sceneToRender.activeCamera) {
+                    sceneToRender.render();
+                }
+            });
+        }
 
-          var createScene = function () {
-            // Create a scene.
-            var scene = new BABYLON.Scene(engine);
+        var engine = null;
+        var scene = null;
+        var sceneToRender = null;
+        var createDefaultEngine = function() { return new BABYLON.Engine(canvas, true, { preserveDrawingBuffer: true, stencil: true,  disableWebGL2Support: false}); };
+        var createScene = function () {
 
-            // Default Environment
-         var environment = scene.createDefaultEnvironment();
+          const scene = new BABYLON.Scene(engine);
+          BABYLON.SceneLoader.ImportMeshAsync("", "./", "west_villa_tex.glb");
+          const camera = new BABYLON.ArcRotateCamera("camera", 0, 0, 0, new BABYLON.Vector3(0, 0, 0));
+          camera.attachControl(canvas, true);
+          const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(1, 1, 0));
 
-        // Enable VR
-        var vrHelper = scene.createDefaultVRExperience();
-        vrHelper.enableTeleportation();
+          // Our built-in 'ground' shape.
+          //  var ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 6, height: 6}, scene);
 
-            var building = BABYLON.SceneLoader.Append("./", "west_villa_tex.glb", scene, function (meshes) {
-              scene.createDefaultCameraOrLight(true, true, true);
-              });
+            // GUI
+            var advancedTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI");
+
+            // set up material to accept animation
+            var buttonColor = new BABYLON.StandardMaterial("buttonColor", scene);
+            buttonColor.diffuseColor = new BABYLON.Color3(0, 0, 0)
+
+            var button = BABYLON.GUI.Button.CreateSimpleButton("but", "Room A");
+            button.width = 0.1;
+            button.height = "20px";
+            button.color = "white";
+            button.background = new BABYLON.Color3(0, 0, 0).toHexString();
+            advancedTexture.addControl(button);
+
+
+            button.onPointerClickObservable.add(() => {
+                var freeCamera = new BABYLON.FreeCamera("FreeCamera", new BABYLON.Vector3(-8, 1, -6), scene);
+                //Attach camera to canvas inputs
+                scene.activeCamera = freeCamera;
+                freeCamera.attachControl(canvas);
+                freeCamera.rotation.y = 1.0;
+                const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(1, 1, 0));
+            });
+
+            scene.registerBeforeRender(function() {
+                button.background = buttonColor.diffuseColor.toHexString();
+            });
 
             return scene;
 
-            };
-
-          var engine = new BABYLON.Engine(canvas, true, { preserveDrawingBuffer: true, stencil: true });
-          var scene = createScene();
-          engine.runRenderLoop(function () {
-             if (scene) {
-                 scene.render();
-             }
-          });
-
-         // Resize
-         window.addEventListener("resize", function () {
-             engine.resize();
-         });
+        };
+                window.initFunction = async function() {
 
 
+                    var asyncEngineCreation = async function() {
+                        try {
+                        return createDefaultEngine();
+                        } catch(e) {
+                        console.log("the available createEngine function failed. Creating the default engine instead");
+                        return createDefaultEngine();
+                        }
+                    }
 
-     </script>
- </body>
+                    window.engine = await asyncEngineCreation();
+        if (!engine) throw 'engine should not be null.';
+        startRenderLoop(engine, canvas);
+        window.scene = createScene();};
+        initFunction().then(() => {sceneToRender = scene
+        });
+
+        // Resize
+        window.addEventListener("resize", function () {
+            engine.resize();
+        });
+    </script>
+</body>
 </html>
