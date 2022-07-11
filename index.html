@@ -59,13 +59,12 @@
         var createScene = function () {
 
           const scene = new BABYLON.Scene(engine);
-          BABYLON.SceneLoader.ImportMeshAsync("", "./", "west_villa_tex.glb");
-          const camera = new BABYLON.ArcRotateCamera("camera", 0, 0, 0, new BABYLON.Vector3(0, 0, 0));
-          camera.attachControl(canvas, true);
-          const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(1, 1, 0));
 
-          // Our built-in 'ground' shape.
-          //  var ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 6, height: 6}, scene);
+          var building = BABYLON.SceneLoader.Append("./", "west_villa_tex.glb", scene, function (meshes) {
+              scene.createDefaultCameraOrLight(true, true, true);
+              const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(1, 1, 0));
+
+              });
 
             // GUI
             var advancedTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI");
@@ -74,51 +73,220 @@
             var buttonColor = new BABYLON.StandardMaterial("buttonColor", scene);
             buttonColor.diffuseColor = new BABYLON.Color3(0, 0, 0)
 
-            var button = BABYLON.GUI.Button.CreateSimpleButton("but", "Room A");
-            button.width = 0.1;
-            button.height = "20px";
-            button.color = "white";
-            button.background = new BABYLON.Color3(0, 0, 0).toHexString();
-            advancedTexture.addControl(button);
+            var button_a = BABYLON.GUI.Button.CreateSimpleButton("but_A", "Room A");
+            button_a.width = 0.1;
+            button_a.height = "20px";
+            button_a.color = "white";
+            button_a.background = new BABYLON.Color3(0, 0, 0).toHexString();
+            button_a.top = "-45%";
+            button_a.left = "-43%";
+            advancedTexture.addControl(button_a);
+
+            var button_b = BABYLON.GUI.Button.CreateSimpleButton("but_B", "Room B");
+            button_b.width = 0.1;
+            button_b.height = "20px";
+            button_b.color = "white";
+            button_b.background = new BABYLON.Color3(0, 0, 0).toHexString();
+            button_b.top = "-40%";
+            button_b.left = "-43%";
+            advancedTexture.addControl(button_b);
+
+            var button_c = BABYLON.GUI.Button.CreateSimpleButton("but_C", "Room C");
+            button_c.width = 0.1;
+            button_c.height = "20px";
+            button_c.color = "white";
+            button_c.background = new BABYLON.Color3(0, 0, 0).toHexString();
+            button_c.top = "-35%";
+            button_c.left = "-43%";
+            advancedTexture.addControl(button_c);
+
+            var button_d = BABYLON.GUI.Button.CreateSimpleButton("but_D", "Room D");
+            button_d.width = 0.1;
+            button_d.height = "20px";
+            button_d.color = "white";
+            button_d.background = new BABYLON.Color3(0, 0, 0).toHexString();
+            button_d.top = "-30%";
+            button_d.left = "-43%";
+            advancedTexture.addControl(button_d);
+
+            var button_e = BABYLON.GUI.Button.CreateSimpleButton("but_E", "Room E");
+            button_e.width = 0.1;
+            button_e.height = "20px";
+            button_e.color = "white";
+            button_e.background = new BABYLON.Color3(0, 0, 0).toHexString();
+            button_e.top = "-25%";
+            button_e.left = "-43%";
+            advancedTexture.addControl(button_e);
+
+            var button_f = BABYLON.GUI.Button.CreateSimpleButton("but_F", "Room F");
+            button_f.width = 0.1;
+            button_f.height = "20px";
+            button_f.color = "white";
+            button_f.background = new BABYLON.Color3(0, 0, 0).toHexString();
+            button_f.top = "-20%";
+            button_f.left = "-43%";
+            advancedTexture.addControl(button_f);
+
+            var button_g = BABYLON.GUI.Button.CreateSimpleButton("but_G", "Room G");
+            button_g.width = 0.1;
+            button_g.height = "20px";
+            button_g.color = "white";
+            button_g.background = new BABYLON.Color3(0, 0, 0).toHexString();
+            button_g.top = "-15%";
+            button_g.left = "-43%";
+            advancedTexture.addControl(button_g);
+
+            var button_h = BABYLON.GUI.Button.CreateSimpleButton("but_H", "Room H");
+            button_h.width = 0.1;
+            button_h.height = "20px";
+            button_h.color = "white";
+            button_h.background = new BABYLON.Color3(0, 0, 0).toHexString();
+            button_h.top = "-10%";
+            button_h.left = "-43%";
+            advancedTexture.addControl(button_h);
+
+            var button_i = BABYLON.GUI.Button.CreateSimpleButton("but_I", "Room I");
+            button_i.width = 0.1;
+            button_i.height = "20px";
+            button_i.color = "white";
+            button_i.background = new BABYLON.Color3(0, 0, 0).toHexString();
+            button_i.top = "-5%";
+            button_i.left = "-43%";
+            advancedTexture.addControl(button_i);
+
+            var button_wv = BABYLON.GUI.Button.CreateSimpleButton("but_wv", "Whole View");
+            button_wv.width = 0.1;
+            button_wv.height = "20px";
+            button_wv.color = "white";
+            button_wv.background = new BABYLON.Color3(0, 0, 0).toHexString();
+            button_wv.top = "0%";
+            button_wv.left = "-43%";
+            advancedTexture.addControl(button_wv);
 
             var cam_button = BABYLON.GUI.Button.CreateSimpleButton("cambut", "cam pos");
             cam_button.width = 0.1;
             cam_button.height = "20px";
             cam_button.color = "white";
-            cam_button.background = new BABYLON.Color3(0, 10, 0).toHexString();
+            cam_button.background = new BABYLON.Color3(0, 0, 0).toHexString();
+            cam_button.top = "5%";
+            cam_button.left = "-43%";
             advancedTexture.addControl(cam_button);
 
 
-            button.onPointerClickObservable.add(() => {
+            scene.registerBeforeRender(function() {
+                button_a.background = buttonColor.diffuseColor.toHexString();
+                button_b.background = buttonColor.diffuseColor.toHexString();
+                button_c.background = buttonColor.diffuseColor.toHexString();
+                button_d.background = buttonColor.diffuseColor.toHexString();
+                button_e.background = buttonColor.diffuseColor.toHexString();
+                button_f.background = buttonColor.diffuseColor.toHexString();
+                button_g.background = buttonColor.diffuseColor.toHexString();
+                button_h.background = buttonColor.diffuseColor.toHexString();
+                button_i.background = buttonColor.diffuseColor.toHexString();
+                button_wv.background = buttonColor.diffuseColor.toHexString();
+                cam_button.background = buttonColor.diffuseColor.toHexString();
+
+            });
+
+
+            button_a.onPointerClickObservable.add(() => {
                 var freeCamera = new BABYLON.FreeCamera("FreeCamera", new BABYLON.Vector3(-8, 1, -6), scene);
                 //Attach camera to canvas inputs
                 scene.activeCamera = freeCamera;
                 freeCamera.attachControl(canvas);
                 freeCamera.rotation.y = 1.0;
                 console.log("button clicked")
-                //console.log(scene.activeCamera.position)
-                //const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(1, 1, 0));
             });
 
-            scene.registerBeforeRender(function() {
-                button.background = buttonColor.diffuseColor.toHexString();
+            button_b.onPointerClickObservable.add(() => {
+                var freeCamera = new BABYLON.FreeCamera("FreeCamera", new BABYLON.Vector3(-11.44697710669301, 1.603281730335781, -3.9319276498262847), scene);
+                //Attach camera to canvas inputs
+                scene.activeCamera = freeCamera;
+                freeCamera.attachControl(canvas);
+                freeCamera.rotation.y = 1.0;
+                console.log("button clicked")
+            });
+
+            button_c.onPointerClickObservable.add(() => {
+                var freeCamera = new BABYLON.FreeCamera("FreeCamera", new BABYLON.Vector3( -12.665252477948858, 3.3204953441753338, -23.607469829419607), scene);
+                //Attach camera to canvas inputs
+                scene.activeCamera = freeCamera;
+                freeCamera.attachControl(canvas);
+                freeCamera.rotation.y = 1.0;
+                console.log("button clicked")
+            });
+
+            button_d.onPointerClickObservable.add(() => {
+                var freeCamera = new BABYLON.FreeCamera("FreeCamera", new BABYLON.Vector3(-7.419925133233505, 1.8418303726714584, -24.603959016135196), scene);
+                //Attach camera to canvas inputs
+                scene.activeCamera = freeCamera;
+                freeCamera.attachControl(canvas);
+                freeCamera.rotation.y = 1.0;
+                console.log("button clicked")
+            });
+
+            button_e.onPointerClickObservable.add(() => {
+                var freeCamera = new BABYLON.FreeCamera("FreeCamera", new BABYLON.Vector3(-2.9872645282834243, 2.365002753658222, -22.797838205430292), scene);
+                //Attach camera to canvas inputs
+                scene.activeCamera = freeCamera;
+                freeCamera.attachControl(canvas);
+                freeCamera.rotation.y = 1.0;
+                console.log("button clicked")
+            });
+
+            button_f.onPointerClickObservable.add(() => {
+                var freeCamera = new BABYLON.FreeCamera("FreeCamera", new BABYLON.Vector3(-10.691320983807147, 0.8470221209329808, -17.854035890665948), scene);
+                //Attach camera to canvas inputs
+                scene.activeCamera = freeCamera;
+                freeCamera.attachControl(canvas);
+                freeCamera.rotation.y = 1.0;
+                console.log("button clicked")
+            });
+
+            button_g.onPointerClickObservable.add(() => {
+                var freeCamera = new BABYLON.FreeCamera("FreeCamera", new BABYLON.Vector3(-11.132065114204567, 1.8920469688401564, -13.279712407656746), scene);
+                //Attach camera to canvas inputs
+                scene.activeCamera = freeCamera;
+                freeCamera.attachControl(canvas);
+                freeCamera.rotation.y = 1.0;
+                console.log("button clicked")
+            });
+
+            button_h.onPointerClickObservable.add(() => {
+                var freeCamera = new BABYLON.FreeCamera("FreeCamera", new BABYLON.Vector3(-3.8310952436606924, 1.7436921093190487, -8.920600813723837), scene);
+                //Attach camera to canvas inputs
+                scene.activeCamera = freeCamera;
+                freeCamera.attachControl(canvas);
+                freeCamera.rotation.y = 1.0;
+                console.log("button clicked")
+            });
+
+            button_i.onPointerClickObservable.add(() => {
+                var freeCamera = new BABYLON.FreeCamera("FreeCamera", new BABYLON.Vector3(-4.262419939184377, 1.011524476909941, -13.979390622960397), scene);
+                //Attach camera to canvas inputs
+                scene.activeCamera = freeCamera;
+                freeCamera.attachControl(canvas);
+                freeCamera.rotation.y = 1.0;
+                console.log("button clicked")
+            });
+
+
+            button_wv.onPointerClickObservable.add(() => {
+
+             scene.createDefaultCameraOrLight(true, true, true);
+             const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(1, 1, 0));
+
             });
 
             cam_button.onPointerClickObservable.add(() => {
-
                 console.log(scene.activeCamera.position)
-                //const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(1, 1, 0));
-            });
-
-            scene.registerBeforeRender(function() {
-                cam_button.background = buttonColor.diffuseColor.toHexString();
             });
 
             return scene;
 
         };
-                window.initFunction = async function() {
 
+            window.initFunction = async function() {
                     var asyncEngineCreation = async function() {
                         try {
                         return createDefaultEngine();
