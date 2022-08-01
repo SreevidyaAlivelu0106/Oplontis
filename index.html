@@ -116,7 +116,7 @@
 
 
             function set_camera(x, y, z){
-              var freeCamera = new BABYLON.ArcRotateCamera("FreeCamera", 10, 0, 0, new BABYLON.Vector3(x, y, z), scene);
+              var freeCamera = new BABYLON.FreeCamera("FreeCamera", new BABYLON.Vector3(x, y, z), scene);
               //Attach camera to canvas inputs
               scene.activeCamera = freeCamera;
               freeCamera.attachControl(canvas);

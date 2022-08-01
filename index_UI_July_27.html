@@ -114,7 +114,7 @@
 
           const scene = new BABYLON.Scene(engine);
 
-          var building = BABYLON.SceneLoader.Append("./", "west_villa.glb", scene, function (meshes) {
+          var building = BABYLON.SceneLoader.Append("./", "west_villa_tex.glb", scene, function (meshes) {
               scene.createDefaultCameraOrLight(true, true, true);
               const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(1, 1, 0));
 
