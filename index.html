@@ -3,7 +3,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
-        <title>Babylon.js sample code</title>
+        <title>Oplontis</title>
 
         <!-- Babylon.js -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.6.2/dat.gui.min.js"></script>
@@ -60,7 +60,7 @@
 
           const scene = new BABYLON.Scene(engine);
 
-          var building = BABYLON.SceneLoader.Append("./", "west_villa.glb", scene, function (meshes) {
+          var building = BABYLON.SceneLoader.Append("./", "west_villa_tex.glb", scene, function (meshes) {
               var camera = scene.createDefaultCameraOrLight(true, true, true);
               const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(1, 1, 0));
 
@@ -116,12 +116,26 @@
 
 
             function set_camera(x, y, z){
-              var freeCamera = new BABYLON.FreeCamera("FreeCamera", new BABYLON.Vector3(x, y, z), scene);
+              var freeCamera = new BABYLON.ArcRotateCamera("FreeCamera", 10, 0, 0, new BABYLON.Vector3(x, y, z), scene);
               //Attach camera to canvas inputs
               scene.activeCamera = freeCamera;
               freeCamera.attachControl(canvas);
               freeCamera.rotation.y = 1.0;
               console.log("function!!")
+
+              scene.gravity = new BABYLON.Vector3(0, 0.15, 0);
+              freeCamera.applyGravity = true;
+
+            //  const assumedFramesPerSecond = 60;
+            //  const earthGravity = -9.81;
+            //  scene.gravity = new BABYLON.Vector3(0, earthGravity / assumedFramesPerSecond, 0);
+
+              freeCamera.ellipsoid = new BABYLON.Vector3(1, 1, 1);
+              scene.collisionsEnabled = true;
+              freeCamera.checkCollisions = true;
+              //ground.checkCollisions = true;
+              //building.checkCollisions = true;
+
 
             }
 
@@ -180,6 +194,7 @@
 
             cam_button.onPointerClickObservable.add(() => {
                 console.log(scene.activeCamera.position)
+                console.log(scene.meshes.toString())//.length.toString())
             });
 
 
